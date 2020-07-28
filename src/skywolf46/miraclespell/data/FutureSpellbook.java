@@ -3,19 +3,23 @@ package skywolf46.miraclespell.data;
 import com.nisovin.magicspells.MagicSpells;
 import com.nisovin.magicspells.Spellbook;
 import org.bukkit.entity.Player;
+import skywolf46.miraclespell.MiracleSpell;
 import skywolf46.miraclespell.util.ObservableFuture;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
 
-public class FutureSpellbook implements ObservableFuture<Spellbook> {
+public class FutureSpellbook extends ObservableFuture<Spellbook> {
     private Spellbook sBook;
     private Player p;
 
+
     private FutureSpellbook(Player p) {
         this.p = p;
+        MiracleSpell.getAfterExecutor().add(new Spellbookprovider());
     }
 
     public static ObservableFuture<Spellbook> futureOf(Player p) {
@@ -40,7 +44,7 @@ public class FutureSpellbook implements ObservableFuture<Spellbook> {
 
     @Override
     public Spellbook get() throws InterruptedException, ExecutionException {
-        return null;
+        return observe();
     }
 
     @Override
@@ -53,10 +57,14 @@ public class FutureSpellbook implements ObservableFuture<Spellbook> {
         return sBook;
     }
 
+
     class Spellbookprovider implements Runnable {
         @Override
         public void run() {
             sBook = new Spellbook(p, MagicSpells.getInstance());
+            synchronized (getLock()){
+                done();
+            }
             // Relase player
             p = null;
         }

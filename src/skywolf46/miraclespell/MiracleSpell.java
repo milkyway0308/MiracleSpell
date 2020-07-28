@@ -14,6 +14,14 @@ import java.util.concurrent.Future;
 public class MiracleSpell {
     private static HashMap<Player, ObservableFuture<Spellbook>> beautifulFuture = new HashMap<>();
     private static final AsyncAfterExecutor after = new AsyncAfterExecutor();
+    private static final AsyncAfterExecutor particle = new AsyncAfterExecutor();
+
+    public static void init() {
+        after.start();
+        particle.start();
+
+    }
+
 
     public static ObservableFuture<Spellbook> getSpellBook(Player p) {
         return beautifulFuture.computeIfAbsent(p, str -> {
@@ -37,9 +45,6 @@ public class MiracleSpell {
         }
     }
 
-    public static void init() {
-        after.start();
-    }
 
     public static void stop() {
         after.stopThread();
@@ -47,5 +52,10 @@ public class MiracleSpell {
 
     public static AsyncAfterExecutor getAfterExecutor() {
         return after;
+    }
+
+
+    public static AsyncAfterExecutor getParticleExecutor() {
+        return particle;
     }
 }

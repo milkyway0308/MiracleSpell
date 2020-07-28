@@ -66,7 +66,7 @@ public class CastCommand implements CommandExecutor, TabCompleter {
 					String[] spellArgs = null;
 					if (args.length > 3) spellArgs = Arrays.copyOfRange(args, 3, args.length);
 					spell.cast(target, spellArgs);
-					sender.sendMessage(plugin.textColor + "Player " + target.getName() + " forced to cast " + spell.getName());
+//					sender.sendMessage(plugin.textColor + "Player " + target.getName() + " forced to cast " + spell.getName());
 					// End forcecast command handling
 					
 				} else if (Perm.RELOAD.has(sender) && args[0].equals("reload")) {

@@ -792,10 +792,10 @@ public class MagicSpells extends JavaPlugin {
      * @param player the player to get a spellbook for
      * @return the player's spellbook
      */
-    public static ObservableFuture<Spellbook> getSpellbook(Player player) {
+    public static Spellbook getSpellbook(Player player) {
 //		Spellbook spellbook = plugin.spellbooks.computeIfAbsent(player.getName(), playerName -> new Spellbook(player, plugin));
 //		if (spellbook == null) throw new IllegalStateException();
-        return MiracleSpell.getSpellBook(player);
+        return MiracleSpell.getSpellBook(player).observe();
     }
 
     public static ChatColor getTextColor() {
